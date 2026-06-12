@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reza Dwi Kurniawan — Arsip</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,900&family=Space+Mono:wght@400;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{
+    --ink:#1c1b19;
+    --paper:#f6f2ea;
+    --paper2:#efe8db;
+    --mustard:#d98e2b;
+    --line:#d8cfbe;
+    --muted:#8a8276;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{background:var(--paper); color:var(--ink); font-family:'Source Sans 3',sans-serif;}
+  body{min-height:100vh; display:flex; flex-direction:column;}
+
+  h1,h2,h3,.display{font-family:'Fraunces',serif;}
+  .mono{font-family:'Space Mono',monospace; letter-spacing:.04em;}
+
+  /* HEADER */
+  header{
+    border-bottom:2px solid var(--ink);
+    padding:28px 6vw 0 6vw;
+    position:sticky; top:0; background:var(--paper); z-index:50;
+  }
+  .header-top{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px;}
+  .brand{font-size:clamp(28px,4vw,46px); font-weight:900; line-height:1;}
+  .brand small{display:block; font-family:'Space Mono',monospace; font-size:12px; font-weight:400; letter-spacing:.15em; color:var(--muted); margin-top:6px;}
+  .date-stamp{font-family:'Space Mono',monospace; font-size:12px; color:var(--muted); text-align:right;}
+
+  nav{display:flex; gap:0; margin-top:18px; overflow-x:auto;}
+  .tab{
+    font-family:'Space Mono',monospace; font-size:13px; letter-spacing:.08em;
+    padding:12px 22px; border:2px solid var(--ink); border-bottom:none;
+    border-radius:8px 8px 0 0; background:var(--paper2); cursor:pointer;
+    margin-right:6px; white-space:nowrap; transform:translateY(2px);
+    transition:transform .15s, background .15s;
+  }
+  .tab.active{background:var(--ink); color:var(--paper); transform:translateY(0);}
+  .tab:hover:not(.active){transform:translateY(-2px);}
+
+  main{flex:1; padding:40px 6vw 80px 6vw; max-width:1200px; margin:0 auto; width:100%;}
+
+  /* SECTION HEADER */
+  .section-head{display:flex; align-items:baseline; gap:18px; margin-bottom:32px; flex-wrap:wrap;}
+  .section-head .num{font-family:'Space Mono',monospace; font-size:14px; color:var(--mustard); border:1px solid var(--mustard); padding:2px 10px; border-radius:20px;}
+  .section-head h2{font-size:clamp(28px,4vw,44px); font-weight:600;}
+  .section-sub{color:var(--muted); font-size:15px; max-width:520px;}
+
+  /* CARD GRID */
+  .grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:28px;}
+  .card{
+    background:#fff; border:1px solid var(--line); border-radius:4px; overflow:hidden;
+    display:flex; flex-direction:column; transition:box-shadow .2s, transform .2s;
+  }
+  .card:hover{box-shadow:8px 8px 0 var(--ink); transform:translate(-2px,-2px);}
+  .card img{width:100%; aspect-ratio:4/3; object-fit:cover; display:block; border-bottom:1px solid var(--line);}
+  .card-body{padding:18px 20px 22px; display:flex; flex-direction:column; gap:8px; flex:1;}
+  .card-body .tag{font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; color:var(--mustard); letter-spacing:.1em;}
+  .card-body h3{font-size:20px; font-weight:600; line-height:1.25;}
+  .card-body p{color:#55504a; font-size:14px; line-height:1.6; flex:1;}
+  .card-body .date{font-family:'Space Mono',monospace; font-size:11px; color:var(--muted); margin-top:6px;}
+
+  .empty{font-family:'Space Mono',monospace; color:var(--muted); padding:40px 0; text-align:center; border:1px dashed var(--line); border-radius:8px;}
+
+  /* PROFIL */
+  .profil-wrap{display:flex; gap:48px; flex-wrap:wrap; align-items:flex-start;}
+  .profil-photo{width:240px; height:300px; object-fit:cover; border:2px solid var(--ink); border-radius:4px; flex-shrink:0; background:var(--paper2);}
+  .profil-text h1{font-size:clamp(32px,5vw,56px); font-weight:900; margin-bottom:8px;}
+  .profil-text .role{font-family:'Space Mono',monospace; font-size:13px; color:var(--mustard); letter-spacing:.1em; margin-bottom:18px;}
+  .profil-text .bio{font-size:17px; line-height:1.8; color:#3a3631; max-width:620px; white-space:pre-wrap;}
+
+  /* MODAL / READER */
+  .modal-bg{position:fixed; inset:0; background:rgba(28,27,25,.6); display:none; align-items:center; justify-content:center; padding:24px; z-index:200;}
+  .modal-bg.show{display:flex;}
+  .modal{background:var(--paper); border:2px solid var(--ink); border-radius:6px; max-width:720px; width:100%; max-height:88vh; overflow-y:auto; padding:32px;}
+  .modal img{width:100%; border-radius:4px; margin-bottom:18px; border:1px solid var(--line);}
+  .modal h2{font-size:28px; margin-bottom:6px;}
+  .modal .date{font-family:'Space Mono',monospace; font-size:12px; color:var(--muted); margin-bottom:18px;}
+  .modal .content{line-height:1.8; white-space:pre-wrap; color:#3a3631;}
+  .modal .close{float:right; cursor:pointer; font-family:'Space Mono',monospace; border:1px solid var(--ink); padding:6px 14px; border-radius:20px; background:none;}
+
+  /* ADMIN */
+  .login-box{max-width:380px; margin:60px auto; text-align:center;}
+  .login-box input{width:100%; padding:14px; font-size:15px; border:2px solid var(--ink); border-radius:6px; margin:14px 0; font-family:'Space Mono',monospace;}
+  .btn{
+    font-family:'Space Mono',monospace; font-size:13px; letter-spacing:.06em; text-transform:uppercase;
+    background:var(--ink); color:var(--paper); border:2px solid var(--ink); padding:12px 26px; border-radius:6px;
+    cursor:pointer; transition:background .15s,color .15s;
+  }
+  .btn:hover{background:var(--mustard); border-color:var(--mustard); color:var(--ink);}
+  .btn.outline{background:none; color:var(--ink);}
+  .btn.outline:hover{background:var(--ink); color:var(--paper);}
+  .btn.danger:hover{background:#b3392a; border-color:#b3392a; color:#fff;}
+
+  .admin-bar{display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; flex-wrap:wrap; gap:10px;}
+  .admin-tabs{display:flex; gap:8px; flex-wrap:wrap;}
+  .admin-tabs .tab{border-radius:6px; border-bottom:2px solid var(--ink); transform:none;}
+  .admin-tabs .tab.active{background:var(--mustard); color:var(--ink); border-color:var(--mustard);}
+
+  .form-grid{display:grid; gap:14px; max-width:640px; background:#fff; border:1px solid var(--line); padding:24px; border-radius:6px; margin-bottom:36px;}
+  .form-grid label{font-family:'Space Mono',monospace; font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); display:block; margin-bottom:6px;}
+  .form-grid input[type=text], .form-grid textarea{
+    width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:4px; font-family:inherit; font-size:15px;
+  }
+  .form-grid textarea{min-height:140px; resize:vertical;}
+  .form-actions{display:flex; gap:10px; align-items:center;}
+
+  .admin-list{display:flex; flex-direction:column; gap:12px;}
+  .admin-item{display:flex; gap:16px; align-items:center; background:#fff; border:1px solid var(--line); border-radius:6px; padding:12px 16px;}
+  .admin-item img{width:64px; height:64px; object-fit:cover; border-radius:4px; border:1px solid var(--line); flex-shrink:0;}
+  .admin-item .meta{flex:1; min-width:0;}
+  .admin-item .meta h4{font-size:16px; margin-bottom:2px;}
+  .admin-item .meta .tag{font-family:'Space Mono',monospace; font-size:11px; color:var(--mustard); text-transform:uppercase;}
+  .admin-item .actions{display:flex; gap:8px; flex-shrink:0;}
+  .admin-item .actions button{font-family:'Space Mono',monospace; font-size:12px; border:1px solid var(--ink); background:none; padding:6px 12px; border-radius:4px; cursor:pointer;}
+  .admin-item .actions button:hover{background:var(--ink); color:var(--paper);}
+
+  .status-msg{font-family:'Space Mono',monospace; font-size:13px; color:var(--mustard); margin-top:8px; min-height:18px;}
+
+  footer{border-top:2px solid var(--ink); padding:24px 6vw; font-family:'Space Mono',monospace; font-size:12px; color:var(--muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;}
+  a{color:inherit;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <div class="brand">REZA DWI KURNIAWAN<small>arsip catatan, kegiatan &amp; karya</small></div>
+    <div class="date-stamp" id="todayStamp"></div>
+  </div>
+  <nav id="mainNav">
+    <div class="tab" data-page="profil">Profil</div>
+    <div class="tab" data-page="essai">Essai</div>
+    <div class="tab" data-page="kegiatan">Kegiatan</div>
+    <div class="tab" data-page="karya">Karya</div>
+    <div class="tab" data-page="admin">Admin</div>
+  </nav>
+</header>
+
+<main id="mainContent"></main>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal" id="modalBody"></div>
+</div>
+
+<footer>
+  <span>© <span id="yearStamp"></span> Reza Dwi Kurniawan</span>
+  <span>disimpan di Supabase</span>
+</footer>
+
+<script>
+/* ---------- SETUP ---------- */
+const SUPABASE_URL = "https://ndvombdqyvcqguxivcbc.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5kdm9tYmRxeXZjcWd1eGl2Y2JjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODEyOTI2ODMsImV4cCI6MjA5Njg2ODY4M30.KdbBxbqabfjN05dEi5T39PjplXWbIMz2gWw2ZEqU2lg";
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const BUCKET = "media";
+const ADMIN_PASSWORD = "Rezadk_77"; // password yang diminta
+
+const CATS = {essai:"Essai", kegiatan:"Kegiatan", karya:"Karya"};
+const CAT_DESC = {
+  essai:"Pemikiran, opini, dan refleksi yang ditulis dari waktu ke waktu.",
+  kegiatan:"Dokumentasi acara, proyek, dan momen yang sedang dikerjakan.",
+  karya:"Kumpulan hasil karya — tulisan, desain, foto, atau proyek lainnya."
+};
+const CAT_NUM = {profil:"00", essai:"01", kegiatan:"02", karya:"03", admin:"—"};
+
+let isAdminLoggedIn = false;
+
+document.getElementById('yearStamp').textContent = new Date().getFullYear();
+document.getElementById('todayStamp').textContent = new Date().toLocaleDateString('id-ID',{weekday:'long', day:'numeric', month:'long', year:'numeric'});
+
+/* ---------- ROUTING ---------- */
+const tabs = document.querySelectorAll('#mainNav .tab');
+tabs.forEach(t => t.addEventListener('click', () => navigate(t.dataset.page)));
+
+function navigate(page){
+  tabs.forEach(t => t.classList.toggle('active', t.dataset.page === page));
+  history.replaceState(null,'','#'+page);
+  render(page);
+}
+
+function fmtDate(iso){
+  return new Date(iso).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
+}
+
+/* ---------- RENDER ---------- */
+async function render(page){
+  const main = document.getElementById('mainContent');
+  main.innerHTML = `<div class="status-msg mono">memuat...</div>`;
+
+  if(page === 'profil') return renderProfil(main);
+  if(page === 'admin') return renderAdmin(main);
+  return renderCategory(main, page);
+}
+
+async function renderCategory(main, cat){
+  const {data, error} = await sb.from('posts').select('*').eq('category',cat).order('created_at',{ascending:false});
+  main.innerHTML = `
+    <div class="section-head">
+      <span class="num">${CAT_NUM[cat]}</span>
+      <div>
+        <h2>${CATS[cat]}</h2>
+        <div class="section-sub">${CAT_DESC[cat]}</div>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+  `;
+  const grid = document.getElementById('grid');
+  if(error){ grid.innerHTML = `<div class="empty">Gagal memuat data: ${error.message}</div>`; return; }
+  if(!data || data.length===0){ grid.innerHTML = `<div class="empty">Belum ada konten di kategori ini.</div>`; return; }
+
+  grid.innerHTML = data.map(item => `
+    <div class="card" onclick='openModal(${JSON.stringify(item).replace(/'/g,"&#39;")})'>
+      ${item.image_url ? `<img src="${item.image_url}" alt="${escapeHtml(item.title)}">` : ''}
+      <div class="card-body">
+        <span class="tag">${CATS[cat]}</span>
+        <h3>${escapeHtml(item.title)}</h3>
+        <p>${escapeHtml((item.content||'').slice(0,140))}${(item.content||'').length>140?'…':''}</p>
+        <span class="date">${fmtDate(item.created_at)}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function renderProfil(main){
+  const {data, error} = await sb.from('profil').select('*').eq('id',1).single();
+  if(error || !data){
+    main.innerHTML = `<div class="empty">Profil belum tersedia. ${error?error.message:''}</div>`;
+    return;
+  }
+  main.innerHTML = `
+    <div class="section-head">
+      <span class="num">${CAT_NUM.profil}</span>
+      <div><h2>Profil</h2><div class="section-sub">Tentang Reza Dwi Kurniawan</div></div>
+    </div>
+    <div class="profil-wrap">
+      ${data.foto_url ? `<img class="profil-photo" src="${data.foto_url}" alt="${escapeHtml(data.nama)}">` : `<div class="profil-photo"></div>`}
+      <div class="profil-text">
+        <h1>${escapeHtml(data.nama || 'Reza Dwi Kurniawan')}</h1>
+        <div class="role mono">PENULIS · KREATOR · ARSIPARIS DIGITAL</div>
+        <div class="bio">${escapeHtml(data.bio || 'Belum ada bio.')}</div>
+      </div>
+    </div>
+  `;
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str ?? '';
+  return div.innerHTML;
+}
+
+/* ---------- MODAL READER ---------- */
+function openModal(item){
+  document.getElementById('modalBody').innerHTML = `
+    <button class="close mono" onclick="closeModal()">tutup ✕</button>
+    ${item.image_url?`<img src="${item.image_url}" alt="">`:''}
+    <h2>${escapeHtml(item.title)}</h2>
+    <div class="date mono">${CATS[item.category]} · ${fmtDate(item.created_at)}</div>
+    <div class="content">${escapeHtml(item.content||'')}</div>
+  `;
+  document.getElementById('modalBg').classList.add('show');
+}
+function closeModal(){ document.getElementById('modalBg').classList.remove('show'); }
+document.getElementById('modalBg').addEventListener('click', e=>{ if(e.target.id==='modalBg') closeModal(); });
+
+/* ---------- ADMIN ---------- */
+function renderAdmin(main){
+  if(!isAdminLoggedIn){
+    main.innerHTML = `
+      <div class="login-box">
+        <h2>Masuk Admin</h2>
+        <p class="section-sub" style="margin:10px auto;">Halaman ini terpisah dari tampilan publik.</p>
+        <input type="password" id="adminPass" placeholder="Kata sandi admin">
+        <div><button class="btn" onclick="tryLogin()">Masuk</button></div>
+        <div class="status-msg" id="loginMsg"></div>
+      </div>
+    `;
+    document.getElementById('adminPass').addEventListener('keydown', e=>{ if(e.key==='Enter') tryLogin(); });
+    return;
+  }
+  renderAdminPanel(main, currentAdminTab || 'essai');
+}
+
+function tryLogin(){
+  const val = document.getElementById('adminPass').value;
+  if(val === ADMIN_PASSWORD){
+    isAdminLoggedIn = true;
+    render('admin');
+  } else {
+    document.getElementById('loginMsg').textContent = 'Kata sandi salah.';
+  }
+}
+
+let currentAdminTab = 'essai';
+
+function renderAdminPanel(main, tab){
+  currentAdminTab = tab;
+  const isProfilTab = tab === 'profil';
+
+  main.innerHTML = `
+    <div class="admin-bar">
+      <div class="admin-tabs">
+        ${['essai','kegiatan','karya','profil'].map(t=>`<div class="tab ${t===tab?'active':''}" data-admintab="${t}">${t==='profil'?'Profil':CATS[t]}</div>`).join('')}
+      </div>
+      <button class="btn outline" onclick="logoutAdmin()">Keluar</button>
+    </div>
+    <div id="adminFormArea"></div>
+    <div id="adminListArea"></div>
+  `;
+  main.querySelectorAll('[data-admintab]').forEach(el=>{
+    el.addEventListener('click', ()=> renderAdminPanel(main, el.dataset.admintab));
+  });
+
+  if(isProfilTab) renderProfilForm(); else renderPostForm(tab);
+}
+
+function logoutAdmin(){
+  isAdminLoggedIn = false;
+  navigate('admin');
+}
+
+/* --- post form (essai/kegiatan/karya) --- */
+function renderPostForm(cat, editItem=null){
+  const area = document.getElementById('adminFormArea');
+  area.innerHTML = `
+    <div class="form-grid">
+      <h3>${editItem ? 'Edit' : 'Tulis baru'} — ${CATS[cat]}</h3>
+      <div>
+        <label>Judul</label>
+        <input type="text" id="f_title" value="${editItem?escapeHtml(editItem.title):''}">
+      </div>
+      <div>
+        <label>Isi / Deskripsi</label>
+        <textarea id="f_content">${editItem?escapeHtml(editItem.content||''):''}</textarea>
+      </div>
+      <div>
+        <label>Gambar / Foto (opsional)</label>
+        <input type="file" id="f_image" accept="image/*">
+        ${editItem && editItem.image_url ? `<div style="margin-top:8px;"><img src="${editItem.image_url}" style="width:120px;border-radius:4px;border:1px solid var(--line)"></div>`:''}
+      </div>
+      <div class="form-actions">
+        <button class="btn" id="f_submit">${editItem?'Simpan perubahan':'Publikasikan'}</button>
+        ${editItem?'<button class="btn outline" id="f_cancel">Batal</button>':''}
+        <span class="status-msg" id="f_status"></span>
+      </div>
+    </div>
+  `;
+  if(editItem){
+    document.getElementById('f_cancel').onclick = ()=> renderAdminPanel(document.getElementById('mainContent'), cat);
+  }
+  document.getElementById('f_submit').onclick = async ()=>{
+    const status = document.getElementById('f_status');
+    const title = document.getElementById('f_title').value.trim();
+    const content = document.getElementById('f_content').value.trim();
+    const file = document.getElementById('f_image').files[0];
+    if(!title){ status.textContent = 'Judul wajib diisi.'; return; }
+    status.textContent = 'Menyimpan...';
+
+    let image_url = editItem ? editItem.image_url : null;
+    if(file){
+      const path = `${cat}/${Date.now()}_${file.name.replace(/\s+/g,'_')}`;
+      const {error: upErr} = await sb.storage.from(BUCKET).upload(path, file, {upsert:true});
+      if(upErr){ status.textContent = 'Gagal unggah gambar: '+upErr.message; return; }
+      const {data: pub} = sb.storage.from(BUCKET).getPublicUrl(path);
+      image_url = pub.publicUrl;
+    }
+
+    if(editItem){
+      const {error} = await sb.from('posts').update({title, content, image_url}).eq('id', editItem.id);
+      if(error){ status.textContent = 'Gagal: '+error.message; return; }
+      status.textContent = 'Tersimpan ✓';
+    } else {
+      const {error} = await sb.from('posts').insert({category:cat, title, content, image_url});
+      if(error){ status.textContent = 'Gagal: '+error.message; return; }
+      status.textContent = 'Dipublikasikan ✓';
+    }
+    setTimeout(()=> renderAdminPanel(document.getElementById('mainContent'), cat), 600);
+  };
+
+  renderAdminList(cat);
+}
+
+async function renderAdminList(cat){
+  const list = document.getElementById('adminListArea');
+  list.innerHTML = `<div class="status-msg mono">memuat daftar...</div>`;
+  const {data, error} = await sb.from('posts').select('*').eq('category',cat).order('created_at',{ascending:false});
+  if(error){ list.innerHTML = `<div class="empty">${error.message}</div>`; return; }
+  if(!data || data.length===0){ list.innerHTML = `<div class="empty">Belum ada konten.</div>`; return; }
+
+  list.innerHTML = `<div class="admin-list">${data.map(item=>`
+    <div class="admin-item">
+      ${item.image_url?`<img src="${item.image_url}">`:`<div style="width:64px;height:64px;background:var(--paper2);border-radius:4px;border:1px solid var(--line)"></div>`}
+      <div class="meta">
+        <span class="tag">${CATS[cat]} · ${fmtDate(item.created_at)}</span>
+        <h4>${escapeHtml(item.title)}</h4>
+      </div>
+      <div class="actions">
+        <button data-edit="${item.id}">Edit</button>
+        <button data-del="${item.id}">Hapus</button>
+      </div>
+    </div>
+  `).join('')}</div>`;
+
+  list.querySelectorAll('[data-edit]').forEach(btn=>{
+    btn.onclick = ()=>{
+      const item = data.find(d=>d.id===btn.dataset.edit);
+      renderPostForm(cat, item);
+      document.querySelector('.form-grid').scrollIntoView({behavior:'smooth'});
+    };
+  });
+  list.querySelectorAll('[data-del]').forEach(btn=>{
+    btn.onclick = async ()=>{
+      if(!confirm('Hapus item ini?')) return;
+      const {error} = await sb.from('posts').delete().eq('id', btn.dataset.del);
+      if(error){ alert('Gagal hapus: '+error.message); return; }
+      renderAdminList(cat);
+    };
+  });
+}
+
+/* --- profil form --- */
+async function renderProfilForm(){
+  const area = document.getElementById('adminFormArea');
+  area.innerHTML = `<div class="status-msg mono">memuat profil...</div>`;
+  const {data, error} = await sb.from('profil').select('*').eq('id',1).single();
+  const cur = data || {nama:'Reza Dwi Kurniawan', bio:'', foto_url:null};
+
+  area.innerHTML = `
+    <div class="form-grid">
+      <h3>Edit Profil</h3>
+      <div>
+        <label>Nama</label>
+        <input type="text" id="p_nama" value="${escapeHtml(cur.nama||'')}">
+      </div>
+      <div>
+        <label>Bio</label>
+        <textarea id="p_bio">${escapeHtml(cur.bio||'')}</textarea>
+      </div>
+      <div>
+        <label>Foto profil</label>
+        <input type="file" id="p_foto" accept="image/*">
+        ${cur.foto_url?`<div style="margin-top:8px;"><img src="${cur.foto_url}" style="width:100px;border-radius:4px;border:1px solid var(--line)"></div>`:''}
+      </div>
+      <div class="form-actions">
+        <button class="btn" id="p_submit">Simpan profil</button>
+        <span class="status-msg" id="p_status"></span>
+      </div>
+    </div>
+  `;
+  document.getElementById('adminListArea').innerHTML = '';
+
+  document.getElementById('p_submit').onclick = async ()=>{
+    const status = document.getElementById('p_status');
+    status.textContent = 'Menyimpan...';
+    const nama = document.getElementById('p_nama').value.trim();
+    const bio = document.getElementById('p_bio').value.trim();
+    const file = document.getElementById('p_foto').files[0];
+    let foto_url = cur.foto_url;
+    if(file){
+      const path = `profil/${Date.now()}_${file.name.replace(/\s+/g,'_')}`;
+      const {error: upErr} = await sb.storage.from(BUCKET).upload(path, file, {upsert:true});
+      if(upErr){ status.textContent = 'Gagal unggah: '+upErr.message; return; }
+      const {data: pub} = sb.storage.from(BUCKET).getPublicUrl(path);
+      foto_url = pub.publicUrl;
+    }
+    const {error} = await sb.from('profil').upsert({id:1, nama, bio, foto_url, updated_at:new Date().toISOString()});
+    if(error){ status.textContent = 'Gagal: '+error.message; return; }
+    status.textContent = 'Tersimpan ✓';
+  };
+}
+
+/* ---------- INIT ---------- */
+const startPage = (location.hash||'#profil').replace('#','');
+navigate(['profil','essai','kegiatan','karya','admin'].includes(startPage) ? startPage : 'profil');
+</script>
+</body>
+</html>
