@@ -94,6 +94,7 @@
   .modal .content{line-height:1.8; white-space:pre-wrap; color:#3a3631;}
   .modal .close{float:right; cursor:pointer; font-family:'Space Mono',monospace; border:1px solid var(--ink); padding:6px 14px; border-radius:20px; background:none; margin-left:10px;}
   .modal .copy-link{background:var(--paper2); border:1px solid var(--ink); padding:6px 14px; border-radius:20px; cursor:pointer; font-family:'Space Mono',monospace; font-size:12px;}
+  .modal .download-link{background:var(--paper2); border:1px solid var(--mustard); padding:6px 14px; border-radius:20px; cursor:pointer; font-family:'Space Mono',monospace; font-size:12px; color:var(--mustard); margin-left:8px;}
 
   /* ADMIN SAME AS BEFORE */
   .login-box{max-width:380px; margin:60px auto; text-align:center;}
@@ -286,6 +287,136 @@ async function renderProfil(main){
 
 function escapeHtml(str){ const div = document.createElement('div'); div.textContent = str ?? ''; return div.innerHTML; }
 
+/* ---------- FUNGSI DOWNLOAD UNTUK ESSAI (KORAN) ---------- */
+async function downloadArticleAsHTML(item) {
+  // Siapkan konten paragraf
+  let contentHtml = '';
+  if(item.content){
+    const paragraphs = item.content.split(/\n\s*\n/);
+    contentHtml = paragraphs.map(p => `<p>${escapeHtml(p.trim())}</p>`).join('');
+  } else {
+    contentHtml = '<p>(Kosong)</p>';
+  }
+
+  // Buat HTML lengkap untuk file download (tampilan koran)
+  const htmlContent = `<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>${escapeHtml(item.title)} — Reza Dwi Kurniawan</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #f6f2ea;
+      font-family: 'Georgia', 'Times New Roman', Times, serif;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .newspaper {
+      max-width: 800px;
+      background: #fffef7;
+      border: 1px solid #d8cfbe;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      font-family: 'Georgia', 'Times New Roman', Times, serif;
+    }
+    h1 {
+      font-size: 36px;
+      font-weight: 900;
+      font-family: 'Fraunces', 'Times New Roman', serif;
+      border-bottom: 2px solid #1c1b19;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    .date {
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: #8a8276;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 24px;
+    }
+    .essai-image {
+      float: right;
+      width: 45%;
+      margin: 0 0 20px 20px;
+      border: 1px solid #d8cfbe;
+      border-radius: 4px;
+    }
+    .content {
+      font-size: 18px;
+      line-height: 1.7;
+      color: #2a2622;
+      text-align: justify;
+    }
+    .content p {
+      margin-bottom: 1.2em;
+    }
+    .content p:first-of-type::first-letter {
+      font-size: 64px;
+      font-weight: 700;
+      float: left;
+      line-height: 0.8;
+      margin-right: 12px;
+      margin-top: 8px;
+      font-family: 'Fraunces', serif;
+      color: #d98e2b;
+    }
+    .content::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #d8cfbe;
+      padding-top: 16px;
+      font-size: 11px;
+      font-family: monospace;
+      color: #8a8276;
+      text-align: center;
+    }
+    @media (max-width: 550px) {
+      .newspaper { padding: 20px; }
+      .essai-image { float: none; width: 100%; margin: 0 0 20px 0; }
+      h1 { font-size: 28px; }
+      .content { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+<div class="newspaper">
+  <h1>${escapeHtml(item.title)}</h1>
+  <div class="date">${CATS[item.category]} · ${fmtDate(item.created_at)}</div>
+  ${item.image_url ? `<img class="essai-image" src="${item.image_url}" alt="${escapeHtml(item.title)}">` : ''}
+  <div class="content">${contentHtml}</div>
+  <footer>
+    Arsip Reza Dwi Kurniawan — diunduh dari reza-dwi-kurniawan.arsip
+  </footer>
+</div>
+</body>
+</html>`;
+
+  // Buat blob dan unduh
+  const blob = new Blob([htmlContent], { type: 'text/html' });
+  const link = document.createElement('a');
+  const url = URL.createObjectURL(blob);
+  link.href = url;
+  // Sanitasi judul untuk nama file
+  const safeTitle = item.title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+  link.download = `essai_${safeTitle}.html`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
 /* ---------- MODAL READER + SHARE ---------- */
 async function openModal(item, pushState = false){
   if(pushState){
@@ -293,9 +424,14 @@ async function openModal(item, pushState = false){
     url.searchParams.set('post', item.id);
     history.pushState({}, '', url);
   }
+  // Tampilkan tombol download hanya untuk kategori essai
+  const downloadButton = (item.category === 'essai') 
+    ? `<button class="download-link" onclick="downloadArticleAsHTML(${JSON.stringify(item).replace(/'/g, "&#39;")})">📄 Download</button>`
+    : '';
   document.getElementById('modalBody').innerHTML = `
     <div style="display:flex; justify-content:flex-end; gap:8px; margin-bottom:12px;">
       <button class="copy-link" onclick="copyArticleLink('${item.id}')">📋 Salin tautan</button>
+      ${downloadButton}
       <button class="close mono" onclick="closeModal()">tutup ✕</button>
     </div>
     ${item.image_url?`<img src="${item.image_url}" alt="">`:''}
