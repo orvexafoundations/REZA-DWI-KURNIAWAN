@@ -72,16 +72,6 @@
   .card-body p{color:#55504a; font-size:14px; line-height:1.6; flex:1;}
   .card-body .date{font-family:'Space Mono',monospace; font-size:11px; color:var(--muted); margin-top:6px;}
 
-  /* PODCHAST CARD — link langsung */
-  .card.podchast-card{text-decoration:none; color:inherit;}
-  .card.podchast-card .card-body .link-badge{
-    display:inline-flex; align-items:center; gap:6px;
-    font-family:'Space Mono',monospace; font-size:11px;
-    color:var(--mustard); border:1px solid var(--mustard);
-    padding:4px 10px; border-radius:20px; margin-top:4px;
-    width:fit-content;
-  }
-
   .empty{font-family:'Space Mono',monospace; color:var(--muted); padding:40px 0; text-align:center; border:1px dashed var(--line); border-radius:8px;}
 
   /* PROFIL */
@@ -94,13 +84,9 @@
   .social-links a{font-family:'Space Mono',monospace; font-size:13px; color:var(--mustard); text-decoration:none; border:1px solid var(--mustard); padding:6px 14px; border-radius:30px; transition:all .2s;}
   .social-links a:hover{background:var(--mustard); color:var(--paper);}
 
-  /* =============================================
-     MODAL / READER — TAMPILAN KORAN UNTUK ESSAI
-     ============================================= */
-  .modal-bg{position:fixed; inset:0; background:rgba(28,27,25,.7); display:none; align-items:center; justify-content:center; padding:24px; z-index:200;}
+  /* MODAL / READER */
+  .modal-bg{position:fixed; inset:0; background:rgba(28,27,25,.6); display:none; align-items:center; justify-content:center; padding:24px; z-index:200;}
   .modal-bg.show{display:flex;}
-
-  /* Modal default (kegiatan, karya) */
   .modal{background:var(--paper); border:2px solid var(--ink); border-radius:6px; max-width:720px; width:100%; max-height:88vh; overflow-y:auto; padding:32px;}
   .modal img{width:100%; border-radius:4px; margin-bottom:18px; border:1px solid var(--line);}
   .modal h2{font-size:28px; margin-bottom:6px;}
@@ -110,151 +96,7 @@
   .modal .copy-link{background:var(--paper2); border:1px solid var(--ink); padding:6px 14px; border-radius:20px; cursor:pointer; font-family:'Space Mono',monospace; font-size:12px;}
   .modal .download-link{background:var(--paper2); border:1px solid var(--mustard); padding:6px 14px; border-radius:20px; cursor:pointer; font-family:'Space Mono',monospace; font-size:12px; color:var(--mustard); margin-left:8px;}
 
-  /* Modal KORAN — hanya untuk essai */
-  .modal-newspaper{
-    background:#fffef7;
-    border:2px solid var(--ink);
-    border-radius:4px;
-    max-width:820px;
-    width:100%;
-    max-height:92vh;
-    overflow-y:auto;
-    font-family:'Georgia','Times New Roman',Times,serif;
-  }
-
-  /* Kepala surat kabar */
-  .modal-newspaper .koran-header{
-    border-bottom:4px double var(--ink);
-    padding:20px 36px 14px;
-    text-align:center;
-    background:var(--paper);
-  }
-  .modal-newspaper .koran-tagline{
-    font-family:'Space Mono',monospace;
-    font-size:10px;
-    letter-spacing:.25em;
-    text-transform:uppercase;
-    color:var(--muted);
-    border-top:1px solid var(--ink);
-    border-bottom:1px solid var(--ink);
-    padding:4px 0;
-    margin-bottom:10px;
-  }
-  .modal-newspaper .koran-judul{
-    font-family:'Fraunces',serif;
-    font-size:clamp(26px,4vw,46px);
-    font-weight:900;
-    line-height:1.1;
-    letter-spacing:-0.01em;
-    margin-bottom:10px;
-  }
-  .modal-newspaper .koran-meta{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:16px;
-    font-family:'Space Mono',monospace;
-    font-size:11px;
-    color:var(--muted);
-    flex-wrap:wrap;
-  }
-  .modal-newspaper .koran-meta .kategori{
-    background:var(--ink);
-    color:var(--paper);
-    padding:2px 10px;
-    letter-spacing:.1em;
-    text-transform:uppercase;
-  }
-
-  /* Toolbar aksi */
-  .modal-newspaper .koran-actions{
-    display:flex;
-    justify-content:flex-end;
-    gap:8px;
-    padding:12px 24px;
-    border-bottom:1px solid var(--line);
-    background:var(--paper2);
-  }
-
-  /* Body artikel */
-  .modal-newspaper .koran-body{
-    padding:28px 36px 40px;
-  }
-  .modal-newspaper .koran-foto{
-    float:right;
-    width:42%;
-    margin:0 0 18px 24px;
-    border:1px solid var(--line);
-    border-radius:2px;
-  }
-  .modal-newspaper .koran-caption{
-    font-family:'Space Mono',monospace;
-    font-size:10px;
-    color:var(--muted);
-    text-align:center;
-    margin-top:4px;
-    display:block;
-    clear:both;
-  }
-  
-  /* PERBAIKAN UTAMA: Isi artikel essai dibuat lebih rapi */
-  .modal-newspaper .koran-isi{
-    font-size:17px;
-    line-height:1.75;
-    color:#2a2622;
-    text-align:justify;
-    hyphens:auto;
-    column-count:2;
-    column-gap:32px;
-    column-rule:1px solid var(--line);
-    orphans:3;
-    widows:3;
-    word-break:break-word;
-  }
-  .modal-newspaper .koran-isi p{
-    margin-bottom:1em;
-    margin-top:0;
-    text-indent:0;
-    break-inside:avoid-column;
-    page-break-inside:avoid;
-  }
-  /* Drop cap hanya paragraf pertama */
-  .modal-newspaper .koran-isi p.first-para::first-letter{
-    font-size:68px;
-    font-weight:900;
-    font-family:'Fraunces',serif;
-    float:left;
-    line-height:0.78;
-    margin-right:12px;
-    margin-top:6px;
-    color:var(--mustard);
-    text-transform:uppercase;
-  }
-  /* Menjaga agar float image tidak merusak kolom */
-  .modal-newspaper .koran-body::after{
-    content:"";
-    display:table;
-    clear:both;
-  }
-  /* Tambahan rapi untuk gambar yang mengambang */
-  .modal-newspaper .koran-foto{
-    float:right;
-    width:42%;
-    margin:0 0 18px 24px;
-    border:1px solid var(--line);
-    border-radius:2px;
-  }
-  /* Responsif: kolom tunggal untuk layar kecil */
-  @media(max-width:620px){
-    .modal-newspaper .koran-isi{ column-count:1; }
-    .modal-newspaper .koran-foto{ float:none; width:100%; margin:0 0 14px 0; }
-    .modal-newspaper .koran-body{ padding:20px 18px 32px; }
-    .modal-newspaper .koran-header{ padding:16px 18px 12px; }
-    .modal-newspaper .koran-footer{ padding:12px 18px; }
-    .modal-newspaper .koran-actions{ padding:10px 14px; }
-  }
-
-  /* ADMIN (tidak diubah) */
+  /* ADMIN SAME AS BEFORE */
   .login-box{max-width:380px; margin:60px auto; text-align:center;}
   .login-box input{width:100%; padding:14px; font-size:15px; border:2px solid var(--ink); border-radius:6px; margin:14px 0; font-family:'Space Mono',monospace;}
   .btn{
@@ -281,7 +123,6 @@
   .admin-item .meta{flex:1; min-width:0;}
   .admin-item .meta h4{font-size:16px; margin-bottom:2px;}
   .admin-item .meta .tag{font-family:'Space Mono',monospace; font-size:11px; color:var(--mustard); text-transform:uppercase;}
-  .admin-item .meta .link-preview{font-family:'Space Mono',monospace; font-size:11px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:300px;}
   .admin-item .actions{display:flex; gap:8px; flex-shrink:0;}
   .admin-item .actions button{font-family:'Space Mono',monospace; font-size:12px; border:1px solid var(--ink); background:none; padding:6px 12px; border-radius:4px; cursor:pointer;}
   .admin-item .actions button:hover{background:var(--ink); color:var(--paper);}
@@ -313,7 +154,7 @@
 <main id="mainContent"></main>
 
 <div class="modal-bg" id="modalBg">
-  <div id="modalBody"></div>
+  <div class="modal" id="modalBody"></div>
 </div>
 
 <footer>
@@ -360,7 +201,7 @@ function navigate(page){
 }
 
 function fmtDate(iso){
-  return new Date(iso).toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});
+  return new Date(iso).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
 }
 
 /* ---------- RENDER ---------- */
@@ -388,50 +229,30 @@ async function renderCategory(main, cat){
   const grid = document.getElementById('grid');
   if(error){ grid.innerHTML = `<div class="empty">Gagal memuat data: ${error.message}</div>`; return; }
   if(!data || data.length===0){ grid.innerHTML = `<div class="empty">Belum ada konten di kategori ini.</div>`; return; }
-
+  
   function renderFiltered(keyword){
     const filtered = data.filter(item => item.title.toLowerCase().includes(keyword.toLowerCase()));
     if(filtered.length === 0){
       grid.innerHTML = `<div class="empty">Tidak ditemukan.</div>`;
       return;
     }
-
-    if(cat === 'podchast'){
-      // Kartu podchast = anchor langsung ke link eksternal
-      grid.innerHTML = filtered.map(item => {
-        const href = item.content && item.content.trim().startsWith('http') ? item.content.trim() : '#';
-        return `
-          <a class="card podchast-card" href="${escapeAttr(href)}" target="_blank" rel="noopener noreferrer">
-            ${item.image_url ? `<img src="${item.image_url}" alt="${escapeHtml(item.title)}">` : ''}
-            <div class="card-body">
-              <span class="tag">Podchast</span>
-              <h3>${escapeHtml(item.title)}</h3>
-              <span class="link-badge">▶ Tonton / Dengarkan</span>
-              <span class="date">${fmtDate(item.created_at)}</span>
-            </div>
-          </a>
-        `;
-      }).join('');
-    } else {
-      grid.innerHTML = filtered.map(item => `
-        <div class="card" data-id="${item.id}">
-          ${item.image_url ? `<img src="${item.image_url}" alt="${escapeHtml(item.title)}">` : ''}
-          <div class="card-body">
-            <span class="tag">${CATS[cat]}</span>
-            <h3>${escapeHtml(item.title)}</h3>
-            <p>${escapeHtml((item.content||'').slice(0,140))}${(item.content||'').length>140?'…':''}</p>
-            <span class="date">${fmtDate(item.created_at)}</span>
-          </div>
+    grid.innerHTML = filtered.map(item => `
+      <div class="card" data-id="${item.id}">
+        ${item.image_url ? `<img src="${item.image_url}" alt="${escapeHtml(item.title)}">` : ''}
+        <div class="card-body">
+          <span class="tag">${CATS[cat]}</span>
+          <h3>${escapeHtml(item.title)}</h3>
+          <p>${escapeHtml((item.content||'').slice(0,140))}${(item.content||'').length>140?'…':''}</p>
+          <span class="date">${fmtDate(item.created_at)}</span>
         </div>
-      `).join('');
-      document.querySelectorAll('.card').forEach(card => {
-        const id = card.dataset.id;
-        const post = data.find(p => p.id === id);
-        if(post) card.onclick = () => openModal(post, true);
-      });
-    }
+      </div>
+    `).join('');
+    document.querySelectorAll('.card').forEach(card => {
+      const id = card.dataset.id;
+      const post = data.find(p => p.id === id);
+      if(post) card.onclick = () => openModal(post, true);
+    });
   }
-
   const searchInput = document.getElementById('searchInput');
   searchInput.addEventListener('input', () => renderFiltered(searchInput.value));
   renderFiltered('');
@@ -465,63 +286,129 @@ async function renderProfil(main){
 }
 
 function escapeHtml(str){ const div = document.createElement('div'); div.textContent = str ?? ''; return div.innerHTML; }
-function escapeAttr(str){ return (str ?? '').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
 /* ---------- FUNGSI DOWNLOAD UNTUK ESSAI (KORAN) ---------- */
 async function downloadArticleAsHTML(item) {
+  // Siapkan konten paragraf
   let contentHtml = '';
   if(item.content){
-    const paragraphs = item.content.split(/\n\s*\n/).filter(p=>p.trim());
-    contentHtml = paragraphs.map((p,i) => `<p${i===0?' class="first-para"':''}>${escapeHtml(p.trim())}</p>`).join('');
+    const paragraphs = item.content.split(/\n\s*\n/);
+    contentHtml = paragraphs.map(p => `<p>${escapeHtml(p.trim())}</p>`).join('');
   } else {
     contentHtml = '<p>(Kosong)</p>';
   }
 
+  // Buat HTML lengkap untuk file download (tampilan koran)
   const htmlContent = `<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <title>${escapeHtml(item.title)} — Reza Dwi Kurniawan</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,900&display=swap" rel="stylesheet">
   <style>
-    *{margin:0;padding:0;box-sizing:border-box;}
-    body{background:#f6f2ea;font-family:'Georgia','Times New Roman',Times,serif;padding:40px 20px;display:flex;justify-content:center;}
-    .newspaper{max-width:800px;background:#fffef7;border:2px solid #1c1b19;padding:0;box-shadow:0 10px 30px rgba(0,0,0,.12);}
-    .koran-header{border-bottom:4px double #1c1b19;padding:24px 40px 16px;text-align:center;background:#f6f2ea;}
-    .tagline{font-family:'Courier New',monospace;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:#8a8276;border-top:1px solid #1c1b19;border-bottom:1px solid #1c1b19;padding:4px 0;margin-bottom:12px;}
-    h1{font-family:'Fraunces','Georgia',serif;font-size:clamp(28px,5vw,48px);font-weight:900;line-height:1.1;letter-spacing:-0.01em;margin-bottom:12px;}
-    .meta{font-family:'Courier New',monospace;font-size:11px;color:#8a8276;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;}
-    .kat{background:#1c1b19;color:#f6f2ea;padding:2px 10px;text-transform:uppercase;letter-spacing:.1em;}
-    .koran-body{padding:28px 40px 40px;}
-    .essai-image{float:right;width:42%;margin:0 0 18px 22px;border:1px solid #d8cfbe;border-radius:2px;}
-    .isi{font-size:17px;line-height:1.75;color:#2a2622;text-align:justify;hyphens:auto;column-count:2;column-gap:30px;column-rule:1px solid #d8cfbe;orphans:3;widows:3;word-break:break-word;}
-    .isi p{margin-bottom:1em;break-inside:avoid;}
-    .isi p.first-para::first-letter{font-size:68px;font-weight:900;font-family:'Fraunces','Georgia',serif;float:left;line-height:.78;margin-right:12px;margin-top:6px;color:#d98e2b;}
-    .isi::after{content:"";display:table;clear:both;}
-    .koran-footer{border-top:3px double #1c1b19;padding:14px 40px;font-family:'Courier New',monospace;font-size:10px;color:#8a8276;text-align:center;letter-spacing:.08em;background:#f6f2ea;}
-    @media(max-width:560px){.isi{column-count:1;}.essai-image{float:none;width:100%;margin:0 0 14px 0;}.koran-body{padding:20px 18px 32px;}.koran-header{padding:16px 18px 12px;}}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #f6f2ea;
+      font-family: 'Georgia', 'Times New Roman', Times, serif;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .newspaper {
+      max-width: 800px;
+      background: #fffef7;
+      border: 1px solid #d8cfbe;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      font-family: 'Georgia', 'Times New Roman', Times, serif;
+    }
+    h1 {
+      font-size: 36px;
+      font-weight: 900;
+      font-family: 'Fraunces', 'Times New Roman', serif;
+      border-bottom: 2px solid #1c1b19;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    .date {
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: #8a8276;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 24px;
+    }
+    .essai-image {
+      float: right;
+      width: 45%;
+      margin: 0 0 20px 20px;
+      border: 1px solid #d8cfbe;
+      border-radius: 4px;
+    }
+    .content {
+      font-size: 18px;
+      line-height: 1.7;
+      color: #2a2622;
+      text-align: justify;
+    }
+    .content p {
+      margin-bottom: 1.2em;
+    }
+    .content p:first-of-type::first-letter {
+      font-size: 64px;
+      font-weight: 700;
+      float: left;
+      line-height: 0.8;
+      margin-right: 12px;
+      margin-top: 8px;
+      font-family: 'Fraunces', serif;
+      color: #d98e2b;
+    }
+    .content::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+    footer {
+      margin-top: 40px;
+      border-top: 1px solid #d8cfbe;
+      padding-top: 16px;
+      font-size: 11px;
+      font-family: monospace;
+      color: #8a8276;
+      text-align: center;
+    }
+    @media (max-width: 550px) {
+      .newspaper { padding: 20px; }
+      .essai-image { float: none; width: 100%; margin: 0 0 20px 0; }
+      h1 { font-size: 28px; }
+      .content { font-size: 16px; }
+    }
   </style>
 </head>
 <body>
 <div class="newspaper">
-  <div class="koran-header">
-    <div class="tagline">Arsip Reza Dwi Kurniawan</div>
-    <h1>${escapeHtml(item.title)}</h1>
-    <div class="meta"><span class="kat">Essai</span><span>${fmtDate(item.created_at)}</span></div>
-  </div>
-  <div class="koran-body">
-    ${item.image_url ? `<img class="essai-image" src="${item.image_url}" alt="${escapeHtml(item.title)}">` : ''}
-    <div class="isi">${contentHtml}</div>
-  </div>
-  <div class="koran-footer">Reza Dwi Kurniawan — reza-dwi-kurniawan.arsip</div>
+  <h1>${escapeHtml(item.title)}</h1>
+  <div class="date">${CATS[item.category]} · ${fmtDate(item.created_at)}</div>
+  ${item.image_url ? `<img class="essai-image" src="${item.image_url}" alt="${escapeHtml(item.title)}">` : ''}
+  <div class="content">${contentHtml}</div>
+  <footer>
+    Arsip Reza Dwi Kurniawan — diunduh dari reza-dwi-kurniawan.arsip
+  </footer>
 </div>
 </body>
 </html>`;
 
+  // Buat blob dan unduh
   const blob = new Blob([htmlContent], { type: 'text/html' });
   const link = document.createElement('a');
   const url = URL.createObjectURL(blob);
   link.href = url;
+  // Sanitasi judul untuk nama file
   const safeTitle = item.title.replace(/[^a-z0-9]/gi, '_').toLowerCase();
   link.download = `essai_${safeTitle}.html`;
   document.body.appendChild(link);
@@ -530,70 +417,28 @@ async function downloadArticleAsHTML(item) {
   URL.revokeObjectURL(url);
 }
 
-/* ---------- MODAL READER ---------- */
+/* ---------- MODAL READER + SHARE ---------- */
 async function openModal(item, pushState = false){
   if(pushState){
     const url = new URL(window.location);
     url.searchParams.set('post', item.id);
     history.pushState({}, '', url);
   }
-
-  const modalBody = document.getElementById('modalBody');
-
-  if(item.category === 'essai'){
-    // ===================== TAMPILAN KORAN =====================
-    const paragraphs = (item.content||'').split(/\n\s*\n/).filter(p=>p.trim());
-    const contentHtml = paragraphs.map((p,i) =>
-      `<p${i===0?' class="first-para"':''}>${escapeHtml(p.trim())}</p>`
-    ).join('');
-
-    // Salin data item untuk download (serialisasi aman)
-    const safeItem = JSON.stringify(item).replace(/\\/g,'\\\\').replace(/`/g,'\\`');
-
-    modalBody.innerHTML = `
-      <div class="modal-newspaper">
-        <!-- Kepala koran -->
-        <div class="koran-header">
-          <div class="koran-tagline">Arsip Reza Dwi Kurniawan</div>
-          <div class="koran-judul">${escapeHtml(item.title)}</div>
-          <div class="koran-meta">
-            <span class="kategori">Essai</span>
-            <span>${fmtDate(item.created_at)}</span>
-          </div>
-        </div>
-        <!-- Tombol aksi -->
-        <div class="koran-actions">
-          <button class="copy-link" onclick="copyArticleLink('${item.id}')">📋 Salin tautan</button>
-          <button class="download-link" id="btnDownload">📄 Unduh</button>
-          <button class="close mono" onclick="closeModal()">tutup ✕</button>
-        </div>
-        <!-- Isi artikel -->
-        <div class="koran-body">
-          ${item.image_url ? `<img class="koran-foto" src="${item.image_url}" alt="${escapeHtml(item.title)}">` : ''}
-          <div class="koran-isi">${contentHtml || '<p>(Belum ada isi)</p>'}</div>
-        </div>
-        <div class="koran-footer">Arsip Reza Dwi Kurniawan · ${fmtDate(item.created_at)}</div>
-      </div>
-    `;
-    document.getElementById('btnDownload').onclick = () => downloadArticleAsHTML(item);
-
-  } else {
-    // ===================== MODAL BIASA (kegiatan, karya) =====================
-    const downloadButton = '';
-    modalBody.innerHTML = `
-      <div class="modal">
-        <div style="display:flex; justify-content:flex-end; gap:8px; margin-bottom:12px;">
-          <button class="copy-link" onclick="copyArticleLink('${item.id}')">📋 Salin tautan</button>
-          <button class="close mono" onclick="closeModal()">tutup ✕</button>
-        </div>
-        ${item.image_url?`<img src="${item.image_url}" alt="">`:''}
-        <h2>${escapeHtml(item.title)}</h2>
-        <div class="date mono">${CATS[item.category]} · ${fmtDate(item.created_at)}</div>
-        <div class="content">${escapeHtml(item.content||'')}</div>
-      </div>
-    `;
-  }
-
+  // Tampilkan tombol download hanya untuk kategori essai
+  const downloadButton = (item.category === 'essai') 
+    ? `<button class="download-link" onclick="downloadArticleAsHTML(${JSON.stringify(item).replace(/'/g, "&#39;")})">📄 Download</button>`
+    : '';
+  document.getElementById('modalBody').innerHTML = `
+    <div style="display:flex; justify-content:flex-end; gap:8px; margin-bottom:12px;">
+      <button class="copy-link" onclick="copyArticleLink('${item.id}')">📋 Salin tautan</button>
+      ${downloadButton}
+      <button class="close mono" onclick="closeModal()">tutup ✕</button>
+    </div>
+    ${item.image_url?`<img src="${item.image_url}" alt="">`:''}
+    <h2>${escapeHtml(item.title)}</h2>
+    <div class="date mono">${CATS[item.category]} · ${fmtDate(item.created_at)}</div>
+    <div class="content">${escapeHtml(item.content||'')}</div>
+  `;
   document.getElementById('modalBg').classList.add('show');
 }
 
@@ -643,27 +488,7 @@ function logoutAdmin(){ isAdminLoggedIn = false; navigate('admin'); }
 /* --- post form --- */
 function renderPostForm(cat, editItem=null){
   const area = document.getElementById('adminFormArea');
-  const isPodchast = cat === 'podchast';
-
-  area.innerHTML = `<div class="form-grid">
-    <h3>${editItem ? 'Edit' : 'Tambah baru'} — ${CATS[cat]}</h3>
-    <div><label>Judul</label><input type="text" id="f_title" value="${editItem?escapeHtml(editItem.title):''}"></div>
-    ${isPodchast
-      ? `<div>
-           <label>Link Video / Audio (YouTube, Spotify, dll)</label>
-           <input type="text" id="f_content" placeholder="https://youtu.be/..." value="${editItem?escapeHtml(editItem.content||''):''}">
-           <p style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);margin-top:6px;">Tempel URL lengkap. Pengunjung akan langsung diarahkan ke tautan ini saat menekan kartu.</p>
-         </div>`
-      : `<div><label>Isi / Deskripsi</label><textarea id="f_content">${editItem?escapeHtml(editItem.content||''):''}</textarea></div>`
-    }
-    <div><label>Gambar / Foto (opsional)</label><input type="file" id="f_image" accept="image/*">${editItem && editItem.image_url ? `<div style="margin-top:8px;"><img src="${editItem.image_url}" style="width:120px;border-radius:4px;border:1px solid var(--line)"></div>`:''}</div>
-    <div class="form-actions">
-      <button class="btn" id="f_submit">${editItem?'Simpan perubahan':'Publikasikan'}</button>
-      ${editItem?'<button class="btn outline" id="f_cancel">Batal</button>':''}
-      <span class="status-msg" id="f_status"></span>
-    </div>
-  </div>`;
-
+  area.innerHTML = `<div class="form-grid"><h3>${editItem ? 'Edit' : 'Tulis baru'} — ${CATS[cat]}</h3><div><label>Judul</label><input type="text" id="f_title" value="${editItem?escapeHtml(editItem.title):''}"></div><div><label>Isi / Deskripsi</label><textarea id="f_content">${editItem?escapeHtml(editItem.content||''):''}</textarea></div><div><label>Gambar / Foto (opsional)</label><input type="file" id="f_image" accept="image/*">${editItem && editItem.image_url ? `<div style="margin-top:8px;"><img src="${editItem.image_url}" style="width:120px;border-radius:4px;border:1px solid var(--line)"></div>`:''}</div><div class="form-actions"><button class="btn" id="f_submit">${editItem?'Simpan perubahan':'Publikasikan'}</button>${editItem?'<button class="btn outline" id="f_cancel">Batal</button>':''}<span class="status-msg" id="f_status"></span></div></div>`;
   if(editItem) document.getElementById('f_cancel').onclick = ()=> renderAdminPanel(document.getElementById('mainContent'), cat);
   document.getElementById('f_submit').onclick = async ()=>{
     const status = document.getElementById('f_status');
@@ -671,7 +496,6 @@ function renderPostForm(cat, editItem=null){
     const content = document.getElementById('f_content').value.trim();
     const file = document.getElementById('f_image').files[0];
     if(!title){ status.textContent = 'Judul wajib diisi.'; return; }
-    if(isPodchast && content && !content.startsWith('http')){ status.textContent = 'Link harus diawali https://'; return; }
     status.textContent = 'Menyimpan...';
     let image_url = editItem ? editItem.image_url : null;
     if(file){
@@ -697,25 +521,11 @@ function renderPostForm(cat, editItem=null){
 
 async function renderAdminList(cat){
   const list = document.getElementById('adminListArea');
-  const isPodchast = cat === 'podchast';
   list.innerHTML = `<div class="status-msg mono">memuat daftar...</div>`;
   const {data, error} = await sb.from('posts').select('*').eq('category',cat).order('created_at',{ascending:false});
   if(error){ list.innerHTML = `<div class="empty">${error.message}</div>`; return; }
   if(!data || data.length===0){ list.innerHTML = `<div class="empty">Belum ada konten.</div>`; return; }
-  list.innerHTML = `<div class="admin-list">${data.map(item=>`
-    <div class="admin-item">
-      ${item.image_url?`<img src="${item.image_url}">`:`<div style="width:64px;height:64px;background:var(--paper2);border-radius:4px;border:1px solid var(--line)"></div>`}
-      <div class="meta">
-        <span class="tag">${CATS[cat]} · ${fmtDate(item.created_at)}</span>
-        <h4>${escapeHtml(item.title)}</h4>
-        ${isPodchast && item.content ? `<div class="link-preview">🔗 ${escapeHtml(item.content)}</div>` : ''}
-      </div>
-      <div class="actions">
-        <button data-edit="${item.id}">Edit</button>
-        <button data-del="${item.id}">Hapus</button>
-      </div>
-    </div>
-  `).join('')}</div>`;
+  list.innerHTML = `<div class="admin-list">${data.map(item=>`<div class="admin-item">${item.image_url?`<img src="${item.image_url}">`:`<div style="width:64px;height:64px;background:var(--paper2);border-radius:4px;border:1px solid var(--line)"></div>`}<div class="meta"><span class="tag">${CATS[cat]} · ${fmtDate(item.created_at)}</span><h4>${escapeHtml(item.title)}</h4></div><div class="actions"><button data-edit="${item.id}">Edit</button><button data-del="${item.id}">Hapus</button></div></div>`).join('')}</div>`;
   list.querySelectorAll('[data-edit]').forEach(btn=>{ btn.onclick = ()=>{ const item = data.find(d=>d.id===btn.dataset.edit); renderPostForm(cat, item); document.querySelector('.form-grid').scrollIntoView({behavior:'smooth'}); }; });
   list.querySelectorAll('[data-del]').forEach(btn=>{ btn.onclick = async ()=>{ if(!confirm('Hapus item ini?')) return; const {error} = await sb.from('posts').delete().eq('id', btn.dataset.del); if(error){ alert('Gagal hapus: '+error.message); return; } renderAdminList(cat); }; });
 }
